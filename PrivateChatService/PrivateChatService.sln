@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrivateChatService", "PrivateChatService.csproj", "{C1893BEE-02D6-FEBD-D7E1-8D7F29977CFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1893BEE-02D6-FEBD-D7E1-8D7F29977CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1893BEE-02D6-FEBD-D7E1-8D7F29977CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1893BEE-02D6-FEBD-D7E1-8D7F29977CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1893BEE-02D6-FEBD-D7E1-8D7F29977CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {89C1BD2E-D941-47EA-BE9B-9663203A3FCB}
+	EndGlobalSection
+EndGlobal

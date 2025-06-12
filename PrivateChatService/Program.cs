@@ -12,15 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-var connectionString = builder.Configuration.GetConnectionString("RemoteConnection"); 
+var connectionString = builder.Configuration.GetConnectionString("RemoteConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString ?? throw new InvalidOperationException("Connection string not found"))
-           .EnableSensitiveDataLogging() 
+           .EnableSensitiveDataLogging()
            .EnableDetailedErrors());
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString ?? throw new InvalidOperationException("Connection string not found"))
-           .EnableSensitiveDataLogging() 
+           .EnableSensitiveDataLogging()
            .EnableDetailedErrors());
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -28,14 +28,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = builder.Environment.IsProduction(),
-            ValidateAudience = builder.Environment.IsProduction(),
+            ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"], 
-            ValidAudience = builder.Configuration["Jwt:Issuer"], 
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(
-                builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not found in configuration")))
+            ValidIssuer = builder.Configuration["jwt:issuer"],
+            ValidAudience = builder.Configuration["jwt:audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:secretKey"])),
+            ClockSkew = TimeSpan.Zero // Remove delay of token when expire
         };
 
         options.Events = new JwtBearerEvents
@@ -65,7 +65,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins("https://yourfrontend.com", "http://localhost:3000") 
+        policy.WithOrigins("https://yourfrontend.com", "http://localhost:3000")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();

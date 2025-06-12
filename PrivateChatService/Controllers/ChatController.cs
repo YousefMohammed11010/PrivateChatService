@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using PrivateChatService.Data;
 using PrivateChatService.Models;
 using PrivateChatService.DTOs;
+using System.Security.Claims;
 
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class ChatController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -21,7 +22,7 @@ public class ChatController : ControllerBase
     [HttpPost("messages")]
     public IActionResult GetMessages([FromBody] WithUserDto dto)
     {
-        var myEmail = User.Identity?.Name;
+        var myEmail = User.FindFirstValue(ClaimTypes.Email);
         if (string.IsNullOrEmpty(myEmail))
             return Unauthorized("Email not found in token.");
 
@@ -38,7 +39,7 @@ public class ChatController : ControllerBase
     [HttpPost("send")]
     public IActionResult SendMessage([FromBody] Message msg)
     {
-        var myEmail = User.Identity.Name;
+        var myEmail = User.FindFirstValue(ClaimTypes.Email);
         if (myEmail == null || myEmail != msg.SenderEmail)
         {
             return Unauthorized("Invalid sender.");
